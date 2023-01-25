@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Ball of the Rings</title>
+
+    <!-- CSS-->
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- Libraries-->
+    <script src="libs/glm_utils.js" defer></script>
+    <script src="libs/m4.js" defer></script>
+    <script src="libs/jquery-3.6.0.js" defer></script>
+    <script src="libs/mesh_utils.js" defer></script>
+    <script src="libs/webgl-utils.js" defer></script>
+    <script src="libs/dat.gui.js" defer></script>
+
+    <script type="module" src="main.js" defer></script>
+
+    <!-- Vertex Shader -->
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec3 a_position; // Position vector
+        attribute vec3 a_normal; // Normals vector
+        attribute vec2 a_texcoord; // Texture coordinates vector
+
+        uniform mat4 u_projection_matrix; // Prospective projection matrix
+        uniform mat4 u_view_matrix; // View Matrix
+        uniform vec3 u_viewWorldPosition; // Camera position
+
+        // Translation vector
+        uniform vec3 u_translation;
+        uniform mat4 u_normalMatrix;
+
+        // Fragment shader varyings
+        varying vec3 v_normal;
+        varying vec4 v_world_matrix;
+        varying vec3 v_surfaceToView;
+        varying vec2 v_texcoord;
+
+        void main() {
+            // Compute the position by multiplying the projection matrix with the view matrix and the vector
+            // that's the vertex position + the translation of the object.
+
+            // La posizione nello schermo (gl_Position) è il prodotto fra posizione nel sistema dell'oggetto (v_world_matrix),
+            // posizione della camera (u_view_matrix) e posizione della proiezione del canvas (u_projection_matrix)
+
+            v_world_matrix = vec4(a_position + u_translation, 1.);
+            gl_Position = u_projection_matrix * u_view_matrix * v_world_matrix;
+
+            v_surfaceToView = u_viewWorldPosition - vec4(a_position, 1).xyz;
+            v_normal = (u_normalMatrix * vec4(a_normal, 1)).xyz;
+            v_texcoord = a_texcoord;
+        }
+    </script>
+
+    <!-- Fragment Shader -->
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        precision highp float;
+
+        // Varying from the vertex shader
+        varying vec3 v_normal;
+        varying vec3 v_surfaceToView;
+        varying vec2 v_texcoord;
+
+        // Uniforms
+        uniform vec3 diffuse;
+        uniform vec3 ambient;
+        uniform vec3 emissive;
+        uniform vec3 specular;
+        uniform float shininess;
+        uniform float opacity;
+        uniform vec3 u_lightDirection;
+        uniform vec3 u_ambientLight;
+        uniform vec3 u_colorLight;
+        uniform sampler2D diffuseMap;
+
+        void main () {
+            vec3 normal = normalize(v_normal);
+            vec3 surfaceToViewDirection = normalize(v_surfaceToView);
+            vec3 halfVector = normalize(u_lightDirection + surfaceToViewDirection);
+
+            // Lights setup
+            float fakeLight = dot(u_lightDirection, normal) * .5 + .5;
+            float specularLight = clamp(dot(normal, halfVector), 0.0, 1.0);
+
+            // Diffusion calculation
+            vec4 diffuseMapColor = texture2D(diffuseMap, v_texcoord);
+            vec3 effectiveDiffuse = diffuse * diffuseMapColor.rgb * u_colorLight.rgb;
+            float effectiveOpacity = opacity * diffuseMapColor.a;
+
+            // Final fragment color computation
+            gl_FragColor = vec4(
+                emissive +
+                ambient * u_ambientLight +
+                effectiveDiffuse * fakeLight +
+                specular * pow(specularLight, shininess),
+                effectiveOpacity
+            );
+        }
+    </script>
+</head>
+
+<body>
+
+<h1 id="gameTitle">The Ball of the Rings</h1>
+
+<div class="row">
+    <div class="canvasDiv">
+        <canvas id="canvas" width="950" height="630"></canvas>
+    </div>
+
+    <div class="column2">
+        <div class="col-inside">
+            <input id="startTimerButton" type="button" value="Start"/>
+        </div>
+
+        <div class="col-inside">
+            <div class="title scoreDiv">
+                <span>Score: </span>
+                <span id="counter"></span>
+            </div>
+
+        </div>
+    </div>
+
+    <hr id="line" class="column2 show-on-desktop hide-on-mobile">
+
+
+    <div class="column2 show-on-desktop hide-on-mobile">
+        <p class="title settingsTitle">Settings</p>
+
+        <br>
+
+        <input id="stopOnFloorReached" type="checkbox"/>
+        <label for="stopOnFloorReached">Stop game on floor reached</label>
+
+
+        <br>
+
+        <input id="playMusic" type="checkbox" checked/>
+        <label for="playMusic">Play sound effects</label>
+
+        <br>
+        <br>
+
+        <label>
+            FPS:
+            <select id="fpsID">
+                <option value="12">12</option>
+                <option value="24">24</option>
+                <option value="30">30</option>
+                <option value="60" selected>60</option>
+                <option value="90">90</option>
+                <option value="120">120</option>
+            </select>
+        </label>
+
+        <br>
+        <br>
+
+        <div id="gui"></div>
+    </div>
+
+    <div id="joystickDiv" class="show-on-mobile hide-on-desktop">
+        <div>
+            <img style="position: relative; left: 100px;" width="800" src="img/red_circle.png"/>
+            <div id="stick">
+                <img width="400" src="img/joystick-blue.png"/>
+            </div>
+        </div>
+    </div>
+
+
+    <audio id="bouncing" src="sound_effects/bouncing.mp3"></audio>
+    <audio id="soundtracks"></audio>
+</div>
+
+</body>
+
+
+</html>

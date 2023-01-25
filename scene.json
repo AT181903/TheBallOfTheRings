@@ -1,0 +1,112 @@
+{
+  "objs": [
+    {
+      "name": "Player",
+      "path": "obj/player.obj",
+      "isPlayer": true,
+      "isBall": false,
+      "collider_type": "box",
+      "dim": {
+        "x": 15,
+        "y": 2,
+        "z": 15
+      },
+      "coords": {
+        "x": 0.0,
+        "y": 3.0,
+        "z": 0.0
+      }
+    },
+    {
+      "name": "Ball",
+      "path": "obj/ball.obj",
+      "isPlayer": false,
+      "isBall": true,
+      "collider_type": "box",
+      "dim": null,
+      "coords": {
+        "x": 0.0,
+        "y": 25.0,
+        "z": 0.0
+      }
+    },
+    {
+      "name": "Ring",
+      "path": "obj/ring.obj",
+      "isPlayer": false,
+      "isBall": false,
+      "collider_type": "goal",
+      "dim": null,
+      "coords": {
+        "x": 37.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "name": "Parete sinistra",
+      "path": "obj/parete_sinistra.obj",
+      "isPlayer": false,
+      "isBall": false,
+      "collider_type": "box",
+      "dim": null,
+      "coords": {
+        "x": -0.5,
+        "y": 20.0,
+        "z": -20.5
+      }
+    },
+    {
+      "name": "Pavimento",
+      "path": "obj/pavimento.obj",
+      "isPlayer": false,
+      "isBall": false,
+      "collider_type": "death",
+      "dim": null,
+      "coords": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "name": "Parete dietro",
+      "path": "obj/parete_dietro.obj",
+      "isPlayer": false,
+      "isBall": false,
+      "collider_type": "box",
+      "dim": null,
+      "coords": {
+        "x": -20.5,
+        "y": 20.0,
+        "z": 0.0
+      }
+    },
+    {
+      "name": "Text Behind",
+      "path": "obj/ring_text_behind.obj",
+      "isPlayer": false,
+      "isBall": false,
+      "collider_type": "box",
+      "dim": null,
+      "coords": {
+        "x": -20.5,
+        "y": 20.0,
+        "z": 0.0
+      }
+    },
+    {
+      "name": "Text Front",
+      "path": "obj/ring_text_front.obj",
+      "isPlayer": false,
+      "isBall": false,
+      "collider_type": "box",
+      "dim": null,
+      "coords": {
+        "x": -20.5,
+        "y": 20.0,
+        "z": 0.0
+      }
+    }
+  ]
+}

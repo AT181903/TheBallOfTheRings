@@ -1,0 +1,162 @@
+* {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: hobbiton;
+    src: url(fonts/HobbitonBrushhandhobbitonBrush-WygA.ttf);
+}
+
+@font-face {
+    font-family: middleEarth;
+    src: url(fonts/Middleearth-ao6m.ttf);
+}
+
+h1 {
+    font-size: 2.5em;
+    text-align: center;
+    font-family: middleEarth, serif;
+    color: #DC824F;
+}
+
+#canvas {
+    background: #FBDF7A;
+    border: 5px solid #FBC841;
+    /*outline: 1px solid #000000;*/
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.30), 0 1px 1px rgba(0, 0, 0, .4);
+}
+
+.title {
+    font-weight: bold;
+}
+
+.column2 {
+    float: left;
+    width: 30%;
+    padding: 10px;
+    max-width: 29%;
+}
+
+#startTimerButton {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.col-inside {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+/*!* Clear floats after the columns *!*/
+/*.row-inside:after {*/
+/*    content: "";*/
+/*    display: table;*/
+/*    clear: both;*/
+/*}*/
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 1024px) {
+    #startTimerButton {
+        /*width: 15vw;*/
+        height: 5vh;
+        font-size: 2em;
+        /*font-size: 30px;*/
+    }
+
+    .title {
+        font-size: 30px;
+    }
+
+    .canvasDiv {
+        width: 100%;
+    }
+
+    .column2 {
+        width: 96.7%;
+        max-width: 96.7%;
+        height: 100%;
+        margin-left: 10px;
+        margin-right: 200px;
+    }
+
+    #stick {
+        position: relative;
+        left: 300px;
+        bottom: 600px;
+    }
+
+    #joystickDiv {
+        max-width: 2vw;
+    }
+
+    .col-inside {
+        vertical-align: middle;
+    }
+
+    /*#canvas {*/
+    /*    max-height: 30vh;*/
+    /*    max-width: 30vh;*/
+    /*}*/
+    .show-on-desktop {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    /*label, span, p{*/
+    /*    font-size: 25px;*/
+    /*}*/
+
+    .settingsTitle {
+        margin-top: 2px;
+        margin-bottom: 7px;
+        font-size: 30px;
+        text-align: center;
+    }
+
+    .scoreDiv {
+        font-size: 20px;
+        margin-top: 0.5em;
+    }
+
+    #line {
+        padding: 0;
+    }
+
+    #fpsID {
+        margin-bottom: 1em;
+    }
+
+    /*.row:after {*/
+    /*    content: "";*/
+    /*    display: table;*/
+    /*    clear: both;*/
+    /*}*/
+    .canvasDiv {
+        float: left;
+        padding: 10px;
+        /*width: 70vw;*/
+        /*height: 84vh;*/
+    }
+
+    .hide-on-desktop {
+        display: none;
+    }
+}
+
